@@ -133,6 +133,7 @@ import {
   BookOpen,
   Calendar,
   FileText,
+  Award,
   LogOut,
   Menu,
   Moon,
@@ -152,6 +153,7 @@ const menuItems = [
   { name: 'calificaciones', path: '/calificaciones', label: 'Calificaciones', icon: BookOpen },
   { name: 'horarios', path: '/horarios', label: 'Horarios', icon: Calendar },
   { name: 'kardex', path: '/kardex', label: 'Kardex', icon: FileText },
+  { name: 'becas', path: '/becas', label: 'Becas', icon: Award },
 ]
 
 const currentPageTitle = computed(() => {

@@ -10,8 +10,8 @@ export default defineConfig({
     }
   },
   server: {
-    host: '0.0.0.0', // 👈 importante para acceder desde tu IP pública
-    port: 5173,      // 👈 o el puerto que prefieras
+    host: '0.0.0.0',
+    port: 5173,
     proxy: {
       '/api': {
         target: 'https://cetech.roque.tecnm.mx',
@@ -23,10 +23,10 @@ export default defineConfig({
             console.error('proxy error', err)
           })
           proxy.on('proxyReq', (proxyReq, req, res) => {
-            console.log('➡️ Enviando petición al destino:', req.method, req.url)
+            console.log(' Enviando petición al destino:', req.method, req.url)
           })
           proxy.on('proxyRes', (proxyRes, req, res) => {
-            console.log('⬅️ Respuesta recibida del destino:', proxyRes.statusCode, req.url)
+            console.log('Respuesta recibida del destino:', proxyRes.statusCode, req.url)
           })
         }
       }

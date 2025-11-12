@@ -35,6 +35,11 @@ const router = createRouter({
           name: 'horarios',
           component: () => import('@/views/HorariosView.vue'),
         },
+        {
+          path: 'becas',
+          name: 'becas',
+          component: () => import('@/views/BecasView.vue'),
+        },
       ]
     },
     {

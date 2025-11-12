@@ -28,7 +28,7 @@
                 v-model="email"
                 type="email"
                 required
-                placeholder="l20030065@celaya.tecnm.mx"
+                placeholder="l00000000@celaya.tecnm.mx"
                 class="input-field pl-10"
                 :disabled="authStore.isLoading"
               />
