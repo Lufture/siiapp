@@ -9,13 +9,34 @@
       <!-- Welcome Section -->
       <div class="card p-6 md:p-8 bg-gradient-to-br from-primary-500 to-primary-700 text-white border-0">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h2 class="text-2xl md:text-3xl font-bold mb-2">
-              ¡Bienvenido, {{ getFirstName(studentStore.studentInfo.persona) }}!
-            </h2>
-            <p class="text-primary-100 text-lg">
-              {{ studentStore.studentInfo.numero_control }} • Semestre {{ studentStore.studentInfo.semestre }}
-            </p>
+          <div class="flex items-center gap-4">
+            <!-- Foto del estudiante -->
+            <div class="relative flex-shrink-0">
+              <img
+                v-if="studentStore.studentInfo.foto"
+                :src="processStudentPhoto(studentStore.studentInfo.foto)"
+                :alt="studentStore.studentInfo.persona"
+                class="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-4 border-white/30 shadow-lg"
+                @error="handleImageError"
+              />
+
+              <div
+                v-else
+                class="w-16 h-16 md:w-20 md:h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white/30 shadow-lg"
+              >
+                <span class="text-2xl md:text-3xl font-bold">
+                  {{ getInitials(studentStore.studentInfo.persona) }}
+                </span>
+              </div>
+            </div>
+            <div>
+              <h2 class="text-2xl md:text-3xl font-bold mb-2">
+                ¡Bienvenido, {{ getFirstName(studentStore.studentInfo.persona) }}!
+              </h2>
+              <p class="text-primary-100 text-lg">
+                {{ studentStore.studentInfo.numero_control }} • Semestre {{ studentStore.studentInfo.semestre }}
+              </p>
+            </div>
           </div>
           <div class="flex items-center gap-2">
             <Award class="w-12 h-12" />
@@ -76,6 +97,58 @@
 
       <!-- Progress Section -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Student Profile Card with Photo -->
+        <div class="card p-6">
+          <h3 class="text-lg font-bold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
+            <User class="w-5 h-5" />
+            Perfil del Estudiante
+          </h3>
+          <div class="flex flex-col items-center mb-4">
+            <!-- Foto grande del estudiante -->
+            <div class="relative mb-4">
+              <img
+                v-if="studentStore.studentInfo.foto"
+                :src="processStudentPhoto(studentStore.studentInfo.foto)"
+                :alt="studentStore.studentInfo.persona"
+                class="w-24 h-24 rounded-full object-cover border-4 border-primary-200 dark:border-primary-800 shadow-lg"
+                @error="handleImageError"
+              />
+              <div
+                v-else
+                class="w-24 h-24 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg"
+              >
+                {{ getInitials(studentStore.studentInfo.persona) }}
+              </div>
+            </div>
+            <h4 class="text-lg font-bold text-neutral-900 dark:text-white text-center mb-1">
+              {{ studentStore.studentInfo.persona }}
+            </h4>
+            <p class="text-sm text-neutral-600 dark:text-neutral-400">
+              {{ studentStore.studentInfo.email }}
+            </p>
+          </div>
+          <div class="space-y-3 pt-4 border-t border-neutral-200 dark:border-neutral-700">
+            <div class="flex items-center justify-between py-2">
+              <span class="text-sm text-neutral-600 dark:text-neutral-400">Número de Control</span>
+              <span class="font-semibold text-neutral-900 dark:text-white">
+                {{ studentStore.studentInfo.numero_control }}
+              </span>
+            </div>
+            <div class="flex items-center justify-between py-2">
+              <span class="text-sm text-neutral-600 dark:text-neutral-400">Semestre Actual</span>
+              <span class="font-semibold text-neutral-900 dark:text-white">
+                {{ studentStore.studentInfo.semestre }}°
+              </span>
+            </div>
+            <div class="flex items-center justify-between py-2">
+              <span class="text-sm text-neutral-600 dark:text-neutral-400">Promedio General</span>
+              <span class="font-semibold text-neutral-900 dark:text-white">
+                {{ parseFloat(studentStore.studentInfo.promedio_aritmetico).toFixed(2) }}
+              </span>
+            </div>
+          </div>
+        </div>
+
         <!-- Progress Bar -->
         <div class="card p-6">
           <h3 class="text-lg font-bold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
@@ -111,40 +184,6 @@
                   {{ studentStore.studentInfo.materias_reprobadas }}
                 </p>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Academic Info -->
-        <div class="card p-6">
-          <h3 class="text-lg font-bold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
-            <User class="w-5 h-5" />
-            Información Académica
-          </h3>
-          <div class="space-y-3">
-            <div class="flex items-center justify-between py-2 border-b border-neutral-200 dark:border-neutral-700">
-              <span class="text-sm text-neutral-600 dark:text-neutral-400">Número de Control</span>
-              <span class="font-semibold text-neutral-900 dark:text-white">
-                {{ studentStore.studentInfo.numero_control }}
-              </span>
-            </div>
-            <div class="flex items-center justify-between py-2 border-b border-neutral-200 dark:border-neutral-700">
-              <span class="text-sm text-neutral-600 dark:text-neutral-400">Email Institucional</span>
-              <span class="font-semibold text-neutral-900 dark:text-white text-sm">
-                {{ studentStore.studentInfo.email }}
-              </span>
-            </div>
-            <div class="flex items-center justify-between py-2 border-b border-neutral-200 dark:border-neutral-700">
-              <span class="text-sm text-neutral-600 dark:text-neutral-400">Semestre Actual</span>
-              <span class="font-semibold text-neutral-900 dark:text-white">
-                {{ studentStore.studentInfo.semestre }}°
-              </span>
-            </div>
-            <div class="flex items-center justify-between py-2">
-              <span class="text-sm text-neutral-600 dark:text-neutral-400">Promedio Ponderado</span>
-              <span class="font-semibold text-neutral-900 dark:text-white">
-                {{ parseFloat(studentStore.studentInfo.promedio_ponderado).toFixed(2) }}
-              </span>
             </div>
           </div>
         </div>
@@ -199,8 +238,9 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 import { useStudentStore } from '@/stores/student'
+import { processStudentPhoto, getInitials, getFirstName } from '@/utils/imageHelper'
 import {
   Loader2,
   Award,
@@ -216,10 +256,9 @@ import {
 
 const studentStore = useStudentStore()
 
-const getFirstName = (fullName) => {
-  if (!fullName) return ''
-  return fullName.split(' ')[0]
-}
+const studentPhoto = computed(() => {
+  return processStudentPhoto(studentStore.studentInfo?.foto)
+})
 
 onMounted(async () => {
   if (!studentStore.studentInfo) {

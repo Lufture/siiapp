@@ -54,6 +54,7 @@ export const authService = {
 export const studentService = {
   async getInfo() {
     const response = await api.get('/movil/estudiante')
+    // La foto viene en base64 en el campo 'foto'
     return response.data
   },
 

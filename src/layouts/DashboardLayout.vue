@@ -44,8 +44,21 @@
         <!-- User info -->
         <div class="p-4 border-t border-neutral-200 dark:border-neutral-700">
           <div v-if="studentStore.studentInfo" class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center text-white font-bold">
-              {{ getInitials(studentStore.studentInfo.persona) }}
+            <!-- Foto del estudiante o iniciales -->
+            <div class="relative flex-shrink-0">
+              <img
+                v-if="studentStore.studentInfo.foto"
+                :src="processStudentPhoto(studentStore.studentInfo.foto)"
+                :alt="studentStore.studentInfo.persona"
+                class="w-10 h-10 rounded-full object-cover border-2 border-primary-200 dark:border-primary-800"
+                @error="handleImageError"
+              />
+              <div
+                v-else
+                class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center text-white font-bold"
+              >
+                {{ getInitials(studentStore.studentInfo.persona) }}
+              </div>
             </div>
             <div class="flex-1 min-w-0">
               <p class="text-sm font-medium text-neutral-900 dark:text-white truncate">
@@ -113,6 +126,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useStudentStore } from '@/stores/student'
+import { processStudentPhoto, getInitials } from '@/utils/imageHelper'
 import {
   GraduationCap,
   LayoutDashboard,
@@ -145,6 +159,10 @@ const currentPageTitle = computed(() => {
   return item?.label || 'Dashboard'
 })
 
+const studentPhoto = computed(() => {
+  return processStudentPhoto(studentStore.studentInfo?.foto)
+})
+
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value
 }
@@ -163,15 +181,6 @@ const toggleDarkMode = () => {
   isDarkMode.value = !isDarkMode.value
   document.documentElement.classList.toggle('dark')
   localStorage.setItem('darkMode', isDarkMode.value)
-}
-
-const getInitials = (name) => {
-  if (!name) return '??'
-  const words = name.trim().split(' ')
-  if (words.length >= 2) {
-    return (words[0][0] + words[1][0]).toUpperCase()
-  }
-  return name.substring(0, 2).toUpperCase()
 }
 
 const handleLogout = () => {
