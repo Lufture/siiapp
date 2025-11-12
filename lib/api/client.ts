@@ -9,7 +9,6 @@ import type {
   CalificacionesResponse,
   KardexResponse,
   HorarioResponse,
-  ApiError,
 } from '@/types/api';
 
 class ApiClient {
