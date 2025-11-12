@@ -1,6 +1,6 @@
 import axios from 'axios';
+import type { LoginResponse, StudentDataResponse } from './types';
 
-// Ahora usamos el proxy interno de Next
 const api = axios.create({
   baseURL: '/api-sii',
   headers: { 'Content-Type': 'application/json' },
@@ -14,15 +14,14 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-export const loginUser = async (email: string, password: string) => {
-  const { data } = await api.post('/login', { email, password });
+export const loginUser = async (email: string, password: string): Promise<LoginResponse> => {
+  const { data } = await api.post<LoginResponse>('/login', { email, password });
   return data;
 };
 
-// otros endpoints
-export const getStudentData = async () => (await api.get('/student')).data;
-export const getGrades = async () => (await api.get('/grades')).data;
-export const getKardex = async () => (await api.get('/kardex')).data;
-export const getSchedule = async () => (await api.get('/schedule')).data;
+export const getStudentData = async (): Promise<StudentDataResponse> => {
+  const { data } = await api.get<StudentDataResponse>('/estudiante');
+  return data;
+};
 
 export default api;
