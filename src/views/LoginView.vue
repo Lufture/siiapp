@@ -90,7 +90,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '../stores/auth'
 import { GraduationCap, Mail, Lock, Eye, EyeOff, LogIn, AlertCircle, Loader2 } from 'lucide-vue-next'
 
 const router = useRouter()

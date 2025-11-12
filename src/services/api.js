@@ -1,7 +1,10 @@
 import axios from 'axios'
 import router from '@/router'
 
-const API_BASE_URL = 'https://cetech.roque.tecnm.mx/api'
+// En desarrollo usa el proxy de Vite, en producción usa la URL completa
+const API_BASE_URL = import.meta.env.DEV
+  ? '/api'  // Proxy de Vite
+  : 'https://cetech.roque.tecnm.mx/api'  // Producción
 
 // Crear instancia de axios
 const api = axios.create({
