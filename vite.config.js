@@ -12,6 +12,7 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5173,
+    allowedHosts: ['topicosweb.celaya.tecnm.mx'],
     proxy: {
       '/api': {
         target: 'https://cetech.roque.tecnm.mx',
